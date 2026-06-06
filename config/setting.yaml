@@ -33,10 +33,10 @@ storage:
 
 # ── Pipeline ──
 pipeline:
-  global_timeout: 300          # Nới lỏng lên 300s (5 phút) để chạy hết cỡ không bao giờ ngắt
-  solver_timeout: 10
+  global_timeout: 9999          # Tắt giới hạn thời gian (Dành cho CPU)
+  solver_timeout: 9999          # Cho phép SymPy/Z3 chạy không giới hạn
   max_retry: 1               # Giam tu 2 xuong 1 (tiet kiem ~30 giay)
-  llm_generate_timeout: 15
+  llm_generate_timeout: 9999    # Cho phép LLM suy nghĩ thoải mái trên CPU
 
 # ── LangSmith ──
 langsmith:
