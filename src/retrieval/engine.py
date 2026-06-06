@@ -37,6 +37,7 @@ class Retriever:
         self.reranker = SentenceTransformerRerank(
             model=rerank_model,
             top_n=rerank_top_n,
+            device="cpu",  # [TEST BRANCH] Ép Reranker chạy trên CPU để tránh OOM
         )
 
         # Tu dong nap du lieu neu Vector DB trong

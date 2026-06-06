@@ -21,4 +21,5 @@ class EmbeddingFactory:
         """
         return HuggingFaceEmbedding(
             model_name=self.model_name,
+            device="cpu",  # [TEST BRANCH] Ép Embedding chạy trên CPU để tránh OOM
         )

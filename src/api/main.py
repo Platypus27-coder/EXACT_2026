@@ -63,25 +63,21 @@ app.add_middleware(
 # ── Endpoints ────────────────────────────────────────────────────────────────
 
 @app.post("/solve", response_model=SolveResponse)
-async def solve(request: SolveRequest):
+def solve(request: SolveRequest):
     """Endpoint chính — nhận câu hỏi, trả đáp án + giải thích.
 
     - Tối đa 60 giây (55s pipeline + 5s overhead)
     - Tự động phân loại logic/physics
-    - Chạy solver + fallback song song
+    - Chạy solver + fallback đồng bộ để dồn 100% CPU cho RAG
     """
     start_time = time.time()
     logger.info(f"Received request: {request.question[:100]}...")
 
     try:
-        # Chạy pipeline với timeout (BTC yêu cầu < 60s)
-        result = await asyncio.wait_for(
-            asyncio.to_thread(
-                run_pipeline,
-                question=request.question,
-                premises=request.premises,
-            ),
-            timeout=60.0,  # Hard timeout 60 giây
+        # Chạy pipeline ĐỒNG BỘ để RAG chạy nhanh nhất trên CPU
+        result = run_pipeline(
+            question=request.question,
+            premises=request.premises,
         )
 
         elapsed = time.time() - start_time
