@@ -28,6 +28,15 @@ async def lifespan(app: FastAPI):
     # Pre-compile graph khi server start (không phải đợi request đầu tiên)
     from src.agent.graph import get_graph
     get_graph()
+    
+    logger.info("Dang tai LLM (Qwen) vao bo nho...")
+    from src.llm.factory import LLMFactory
+    LLMFactory.create_client(purpose="code").get_llm()
+    
+    logger.info("Dang tai Embedding & Reranker vao bo nho...")
+    from src.retrieval.engine import Retriever
+    Retriever()
+    
     logger.info("[OK] Server ready!")
     yield
     logger.info("Server shutting down")
