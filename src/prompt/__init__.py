@@ -8,7 +8,7 @@ CẢI TIẾN so với code cũ:
 - Tối ưu cho model 8B (ngắn gọn, rõ ràng)
 """
 
-COMPETITION_SYSTEM_PROMPT = """You are an expert educational AI assistant for the EXACT 2026 competition. For logic problems: analyze premises carefully, apply formal reasoning, and derive the correct conclusion. For physics problems: identify relevant formulas, show step-by-step calculations, and provide the final numerical answer with correct units. Always think step-by-step inside <think>...</think> tags, then give your final answer inside <answer>...</answer> tags."""
+COMPETITION_SYSTEM_PROMPT = """You are an expert educational AI assistant for the EXACT 2026 competition. For logic problems: analyze premises carefully, apply formal reasoning, and derive the correct conclusion. For physics problems: identify relevant formulas, show step-by-step calculations, and print the final numerical answer dynamically from the calculated SymPy variables (never write hardcoded values in the print statement). Always think step-by-step inside <think>...</think> tags, then give your final answer inside <answer>...</answer> tags."""
 
 
 
