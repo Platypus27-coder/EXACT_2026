@@ -41,10 +41,15 @@ class Retriever:
         # Khoi tao Reranker
         rerank_model = settings.rag.reranker
         rerank_top_n = settings.retrieval.rerank_top_n
-        logger.info(f"Loading reranker: {rerank_model} (top_n={rerank_top_n})")
+        
+        import torch
+        device = "cuda:1" if torch.cuda.device_count() > 1 else ("cuda:0" if torch.cuda.is_available() else "cpu")
+        logger.info(f"Loading reranker: {rerank_model} (top_n={rerank_top_n}) on {device}")
+        
         self.reranker = SentenceTransformerRerank(
             model=rerank_model,
             top_n=rerank_top_n,
+            device=device,
         )
 
         # Tu dong nap du lieu neu Vector DB trong

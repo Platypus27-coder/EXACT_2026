@@ -22,8 +22,12 @@ class EmbeddingFactory:
         if not self.model_name:
             self.model_name = "BAAI/bge-m3"
 
-        logger.info(f"Loading embedding model: {self.model_name}")
+        import torch
+        device = "cuda:1" if torch.cuda.device_count() > 1 else ("cuda:0" if torch.cuda.is_available() else "cpu")
+
+        logger.info(f"Loading embedding model: {self.model_name} on {device}")
 
         return HuggingFaceEmbedding(
             model_name=self.model_name,
+            device=device,
         )
