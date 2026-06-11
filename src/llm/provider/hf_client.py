@@ -54,7 +54,7 @@ class HuggingFaceClient(BaseLLM):
 
         # Cau hinh quantization 4-bit
         kwargs = {
-            "device_map": "auto",
+            "device_map": {"": 0},  # ÉP BUỘC CHỈ DÙNG GPU 0, CHỐNG PHÂN MẢNH MODEL
             "trust_remote_code": True,
             "torch_dtype": torch.float16,
         }
