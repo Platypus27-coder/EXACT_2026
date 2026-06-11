@@ -58,49 +58,26 @@ class Retriever:
         logger.info("[OK] Retriever initialized")
 
     def _auto_ingest_if_empty(self):
-        """Kiem tra Vector DB, neu trong hoac file nguon thay doi thi tu dong nap lai kien thuc."""
-        import hashlib
+        """Kiem tra Vector DB, neu trong thi tu dong nap kien thuc."""
         collection_name = settings.storage.collection_name
-        formulas_file = _PROJECT_ROOT / "data" / "sft_dataset" / "physics_formulas.jsonl"
-        hash_file = self.vector_db.base_storage_dir / "ingest_hash.txt"
-
-        current_hash = ""
-        if formulas_file.exists():
-            current_hash = hashlib.md5(formulas_file.read_bytes()).hexdigest()
-
-        old_hash = ""
-        if hash_file.exists():
-            try:
-                old_hash = hash_file.read_text(encoding="utf-8").strip()
-            except Exception:
-                pass
-
         index = self.vector_db.get_index(collection_name)
 
-        if current_hash != old_hash or index is None:
-            logger.info("Phat hien file nguon physics_formulas.jsonl co thay doi hoac Vector DB chua co du lieu. Tu dong reset va nap lai...")
-            self.vector_db.reset_db()
+        if index is not None:
+            logger.info(f"Vector DB '{collection_name}' da co du lieu, khong can nap lai")
+            return
 
-            documents = self._load_all_knowledge()
-            if not documents:
-                logger.warning("[WARN] Khong co du lieu de nap vao Vector DB")
-                return
+        logger.info("Vector DB trong, tu dong nap kien thuc vat ly...")
+        documents = self._load_all_knowledge()
 
-            self.vector_db.add_documents(
-                documents=documents,
-                collection_name=collection_name,
-            )
+        if not documents:
+            logger.warning("[WARN] Khong co du lieu de nap vao Vector DB")
+            return
 
-            # Ghi hash moi de lan sau khoi nap lai
-            try:
-                hash_file.parent.mkdir(parents=True, exist_ok=True)
-                hash_file.write_text(current_hash, encoding="utf-8")
-            except Exception as e:
-                logger.warning(f"Khong the ghi file hash: {e}")
-
-            logger.info(f"[OK] Da tu dong nap {len(documents)} documents vao Vector DB")
-        else:
-            logger.info(f"Vector DB '{collection_name}' da dong bo voi physics_formulas.jsonl, khong can nap lai")
+        self.vector_db.add_documents(
+            documents=documents,
+            collection_name=collection_name,
+        )
+        logger.info(f"[OK] Da tu dong nap {len(documents)} documents vao Vector DB")
 
     def _load_all_knowledge(self):
         """Load toan bo kien thuc tu cac file co san.
