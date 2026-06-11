@@ -68,9 +68,8 @@ def physics_solver_branch(state: AgentState) -> dict:
 
         context = state.get("context", "")
         context_block = f"\n\nPhysics Formulas & Guidelines:\n{context}\n" if context else ""
-        dynamic_print_note = "\nImportant: Print ONLY ONE FINAL_ANSWER line using the computed SymPy variables. Do not add a second hardcoded FINAL_ANSWER line.\n"
 
-        user_prompt = f"{context_block}{dynamic_print_note}[PHYSICS PROBLEM]\n{state['question']}"
+        user_prompt = f"{context_block}[PHYSICS PROBLEM]\n{state['question']}"
 
         # ── Attempt 1 ──
         logger.info("[Physics Solver] Attempt 1: Sinh SymPy code...")
