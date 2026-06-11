@@ -84,7 +84,7 @@ class Retriever:
         docs = []
 
         # 2. Load bai tap training tu sft_dataset
-        train_file = _PROJECT_ROOT / "data" / "sft_dataset" / "train.jsonl"
+        train_file = _PROJECT_ROOT / "data" / "sft_dataset" / "train_code_final_700_filtered.jsonl"
         if train_file.exists():
             count = 0
             with open(train_file, "r", encoding="utf-8") as f:
