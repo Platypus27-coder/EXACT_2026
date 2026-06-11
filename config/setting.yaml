@@ -35,7 +35,7 @@ storage:
 pipeline:
   global_timeout: 300          # Nới lỏng lên 300s (5 phút) để chạy hết cỡ không bao giờ ngắt
   solver_timeout: 15
-  max_retry: 2               # Tang len 2 de AI co them co hoi sua loi code
+  max_retry: 1               # Giam tu 2 xuong 1 (tiet kiem ~30 giay)
   llm_generate_timeout: 15
 
 # ── LangSmith ──

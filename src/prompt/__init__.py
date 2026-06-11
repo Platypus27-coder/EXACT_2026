@@ -54,6 +54,6 @@ REQUIREMENTS:
 3. Always use SI units.
 4. Always end with: `print(f"FINAL_ANSWER: {{value}} {{unit}}")` (combine multiple answers if needed).
 5. Generate ONLY the corrected Python code block.
-6. Do NOT call `.evalf()` on standard Python float/int variables (it will cause AttributeError).
+
 
 CORRECTED CODE:"""
