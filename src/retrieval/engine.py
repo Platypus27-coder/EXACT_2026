@@ -166,8 +166,12 @@ class Retriever:
                 query_str=query,
             )
 
-            logger.info(f"[OK] Reranked -> {len(reranked_nodes)} documents")
-            return reranked_nodes
+            # Lọc theo threshold cấu hình trong setting.yaml để tránh nhiễu model
+            threshold = settings.retrieval.threshold
+            filtered_nodes = [node for node in reranked_nodes if node.score >= threshold]
+
+            logger.info(f"[OK] Reranked -> {len(reranked_nodes)} documents, Filtered (score >= {threshold}) -> {len(filtered_nodes)} documents")
+            return filtered_nodes
 
         except Exception as e:
             logger.error(f"[ERROR] Retrieval error: {e}")
