@@ -55,11 +55,9 @@ def parse_answer(text: str) -> str:
         return match.group(1).strip()
 
     # Pattern 1: FINAL_ANSWER: <value> <unit> (physics)
-    # Dung findall lay tat ca dong FINAL_ANSWER, chon dong DAU TIEN (ket qua tinh toan thuc)
-    # Tranh lay dong hardcode cuoi cung cua LLM sinh ra co the sai
-    all_final = re.findall(r"FINAL_ANSWER:\s*(.+)", text, re.IGNORECASE)
-    if all_final:
-        return all_final[0].strip()
+    match = re.search(r"FINAL_ANSWER:\s*(.+)", text, re.IGNORECASE)
+    if match:
+        return match.group(1).strip()
 
     # Pattern 2: ANSWER: <value> (logic)
     match = re.search(r"ANSWER:\s*(.+)", text, re.IGNORECASE)

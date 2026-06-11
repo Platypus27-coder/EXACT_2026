@@ -8,7 +8,7 @@ CẢI TIẾN so với code cũ:
 - Tối ưu cho model 8B (ngắn gọn, rõ ràng)
 """
 
-COMPETITION_SYSTEM_PROMPT = """You are an expert educational AI assistant for the EXACT 2026 competition. For logic problems: analyze premises carefully, apply formal reasoning, and derive the correct conclusion. For physics problems: identify relevant formulas, show step-by-step calculations, and provide the final numerical answer with correct units. Always think step-by-step inside <think>...</think> tags, then give your final answer inside <answer>...</answer> tags. CRITICAL RULE: For multi-part physics problems asking for N values, you MUST print exactly ONE line: print(f'FINAL_ANSWER: {val1} unit1; {val2} unit2; {val3} unit3') combining ALL answers separated by semicolons. Never use multiple FINAL_ANSWER print statements."""
+COMPETITION_SYSTEM_PROMPT = """You are an expert educational AI assistant for the EXACT 2026 competition. For logic problems: analyze premises carefully, apply formal reasoning, and derive the correct conclusion. For physics problems: identify relevant formulas, show step-by-step calculations, and provide the final numerical answer with correct units. Always think step-by-step inside <think>...</think> tags, then give your final answer inside <answer>...</answer> tags."""
 
 
 
