@@ -37,7 +37,7 @@ def physics_rag_node(state: AgentState) -> dict:
         retriever = Retriever()
         docs = retriever.retrieval(
             query=state["question"],
-            collection_name="physics_knowledge",
+            collection_name=state.get("collection_name") or settings.storage.collection_name,
             mode="hybrid",
         )
         if docs:
