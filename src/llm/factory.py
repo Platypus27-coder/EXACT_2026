@@ -38,6 +38,15 @@ class LLMFactory:
             logger.warning("[MOCK] USING MOCK LLM CLIENT (Offline Mode)")
             return MockLLMClient()
 
+        # Check GGUF mode
+        use_gguf = os.getenv("USE_GGUF", "false").lower() == "true"
+        if use_gguf:
+            if LLMFactory._shared_client is None:
+                from src.llm.provider.gguf_client import GGUFClient
+                logger.info(f"Khoi tao GGUF client (Llama.cpp) cho {purpose.upper()}")
+                LLMFactory._shared_client = GGUFClient()
+            return LLMFactory._shared_client
+
         # Dung chung 1 client (singleton) de khong load model nhieu lan
         if LLMFactory._shared_client is None:
             from src.llm.provider.hf_client import HuggingFaceClient
