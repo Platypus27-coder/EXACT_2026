@@ -67,7 +67,7 @@ def physics_solver_branch(state: AgentState) -> dict:
         from langchain_core.messages import SystemMessage, HumanMessage
 
         context = state.get("context", "")
-        context_block = f"\n\nSimilar Solved Examples:\n{context}\n" if context else ""
+        context_block = f"\n\nPhysics Formulas & Guidelines:\n{context}\n" if context else ""
 
         user_prompt = f"{context_block}[PHYSICS PROBLEM]\n{state['question']}"
 
