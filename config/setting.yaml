@@ -21,7 +21,7 @@ embedding:
 
 # ── Retrieval ──
 retrieval:
-  threshold: 1.0
+  threshold: 0.4
   top_k: 10             # Giam tu 20 xuong 10 (nhanh hon, van du)
   rerank_top_n: 3
 

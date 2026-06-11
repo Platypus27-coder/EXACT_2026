@@ -80,14 +80,17 @@ class Retriever:
         logger.info(f"[OK] Da tu dong nap {len(documents)} documents vao Vector DB")
 
     def _load_all_knowledge(self):
-        """Load toan bo kien thuc tu cac file co san."""
+        """Load toan bo kien thuc tu cac file co san.
+        
+        Chi load duy nhat sach cong thuc physics_formulas.jsonl de lam context
+        goi y cong thuc sach 100%, loai bo cac bai tap cu de tranh nhiem doc dap an cung.
+        """
         docs = []
 
-        # 2. Load bai tap training tu sft_dataset
-        train_file = _PROJECT_ROOT / "data" / "sft_dataset" / "train_code_final_700_filtered.jsonl"
-        if train_file.exists():
+        formulas_file = _PROJECT_ROOT / "data" / "sft_dataset" / "physics_formulas.jsonl"
+        if formulas_file.exists():
             count = 0
-            with open(train_file, "r", encoding="utf-8") as f:
+            with open(formulas_file, "r", encoding="utf-8") as f:
                 for line in f:
                     if not line.strip():
                         continue
@@ -102,11 +105,13 @@ class Retriever:
                             answer = msg.get("content", "")
                     if question and answer:
                         docs.append(Document(
-                            text=f"Cau hoi: {question}\nLoi giai: {answer}",
-                            metadata={"topic": question[:80], "source": "training_data"},
+                            text=f"Topic: {question}\nFormulas & Theory: {answer}",
+                            metadata={"topic": question[:80], "source": "physics_theory"},
                         ))
                         count += 1
-            logger.info(f"  Load {count} bai tap tu train.jsonl")
+            logger.info(f"[RAG Ingest] Da nap {count} cong thuc vat ly chuan tu physics_formulas.jsonl")
+        else:
+            logger.warning(f"[WARN] Khong tim thay file cong thuc tai: {formulas_file}")
 
         return docs
 
