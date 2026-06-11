@@ -75,7 +75,13 @@ def physics_solver_branch(state: AgentState) -> dict:
         context = state.get("context", "")
         context_block = f"\n\nSimilar Solved Examples:\n{context}\n" if context else ""
 
-        user_prompt = f"{context_block}[PHYSICS PROBLEM]\n{state['question']}"
+        user_prompt = (
+            f"{context_block}[PHYSICS PROBLEM]\n{state['question']}\n\n"
+            "INSTRUCTION: Write a Python script to solve this problem. "
+            "Do NOT use `.evalf()` on standard Python float/int variables (it will cause AttributeError). "
+            "Your script MUST print the final result using exactly: print(f\"FINAL_ANSWER: {result} {unit}\"). "
+            "Output ONLY the python code block."
+        )
 
         # ── Attempt 1 ──
         logger.info("[Physics Solver] Attempt 1: Sinh SymPy code...")
