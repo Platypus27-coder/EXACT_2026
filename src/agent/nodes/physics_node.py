@@ -22,35 +22,9 @@ from src.prompt import (
 
 
 def physics_rag_node(state: AgentState) -> dict:
-    """Node RAG: Tìm kiếm công thức vật lý liên quan từ Vector DB.
-
-    Hybrid search: BM25 + Vector → Rerank → Top 3
-
-    Args:
-        state: Trạng thái chứa câu hỏi.
-
-    Returns:
-        Dict cập nhật context.
-    """
-    try:
-        from src.retrieval.engine import Retriever
-        retriever = Retriever()
-        docs = retriever.retrieval(
-            query=state["question"],
-            collection_name=state.get("collection_name") or settings.storage.collection_name,
-            mode="hybrid",
-        )
-        if docs:
-            context = "\n\n".join([d.node.get_content() for d in docs])
-            logger.info(f"[Physics RAG] Tìm thấy {len(docs)} tài liệu liên quan")
-        else:
-            context = "Không tìm thấy công thức cụ thể trong cơ sở tri thức."
-            logger.info("[Physics RAG] Không tìm thấy tài liệu nào")
-    except Exception as e:
-        logger.warning(f"[WARN] [Physics RAG] Lỗi: {e}")
-        context = ""
-
-    return {"context": context}
+    """Node RAG: Vô hiệu hóa RAG cho Physics để chạy zero-shot chính xác giống Colab."""
+    logger.info("[Physics RAG] Da vo hieu hoa RAG de chay zero-shot giong Colab")
+    return {"context": ""}
 
 
 def physics_solver_branch(state: AgentState) -> dict:
